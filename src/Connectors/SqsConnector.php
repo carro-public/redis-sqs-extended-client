@@ -28,18 +28,16 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
 
         if (isset($config['redis_storage'])) {
             return app()->make(\CarroPublic\RedisSqsExtendedClient\Queues\SqsQueue::class, [
-                new SqsClient($config),
-                $config['queue'],
-                $config['prefix'] ?? '',
-                $config['suffix'] ?? '',
-                $config['after_commit'] ?? null,
+                'sqs' => new SqsClient($config),
+                'default' => $config['queue'],
+                'prefix' => $config['prefix'] ?? '',
+                'suffix' => $config['suffix'] ?? '',
+                'dispatchAfterCommit' => $config['after_commit'] ?? null,
             ]);
         }
 
         return new SqsQueue(
-            new SqsClient(
-                Arr::except($config, ['token'])
-            ),
+            new SqsClient($config),
             $config['queue'],
             $config['prefix'] ?? '',
             $config['suffix'] ?? '',

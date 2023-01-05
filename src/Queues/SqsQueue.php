@@ -55,7 +55,7 @@ class SqsQueue extends \Illuminate\Queue\SqsQueue
     public static function ensureValidPayloadSize($payload, $connectionName)
     {
         if (strlen($payload) >= SqsConnector::getPayloadThreshold($connectionName)) {
-            $payloadId = $payload['uuid'];
+            $payloadId = data_get(json_decode($payload, true), 'uuid', md5($payload));
 
             $payloadKey = SqsConnector::getPayloadPrefix($connectionName) . $payloadId;
 
