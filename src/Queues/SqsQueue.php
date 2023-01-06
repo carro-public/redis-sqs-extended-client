@@ -37,11 +37,11 @@ class SqsQueue extends \Illuminate\Queue\SqsQueue
 
         if (! is_null($response['Messages']) && count($response['Messages']) > 0) {
             return app()->make(SqsJob::class, [
-                $this->container,
-                $this->sqs,
-                $response['Messages'][0],
-                $this->connectionName,
-                $queue,
+                'container' => $this->container,
+                'sqs' => $this->sqs,
+                'job' => $response['Messages'][0],
+                'connectionName' => $this->connectionName,
+                'queue' => $queue,
             ]);
         }
     }

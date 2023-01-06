@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Queue\SqsQueue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Redis\Connections\Connection;
+use CarroPublic\RedisSqsExtendedClient\Jobs\SqsJob;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
@@ -27,6 +28,11 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
         }
 
         if (isset($config['redis_storage'])) {
+            # Rebind SqsJob abstract
+            app()->bind(\Illuminate\Queue\Jobs\SqsJob::class, function ($app, $params) {
+                return new SqsJob(...$params);
+            });
+            
             return app()->make(\CarroPublic\RedisSqsExtendedClient\Queues\SqsQueue::class, [
                 'sqs' => new SqsClient($config),
                 'default' => $config['queue'],
