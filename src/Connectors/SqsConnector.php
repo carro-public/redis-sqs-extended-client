@@ -51,7 +51,7 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
      */
     public static function redisConnection($queueConnection)
     {
-        return Redis::connection(config("queue.{$queueConnection}.redis-storage.connection", "default"));
+        return Redis::connection(config("queue.connections.{$queueConnection}.redis_storage.connection", "default"));
     }
 
     /**
@@ -60,7 +60,7 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
      */
     public static function getPayloadThreshold($queueConnection)
     {
-        return config("queue.{$queueConnection}.redis-storage.threshold", 262144);
+        return config("queue.connections.{$queueConnection}.redis_storage.threshold", 262144);
     }
 
     /**
@@ -69,7 +69,7 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
      */
     public static function getPayloadPrefix($queueConnection)
     {
-        return config("queue.{$queueConnection}.redis-storage.prefix", 'sqs_payload_');
+        return config("queue.connections.{$queueConnection}.redis_storage.prefix", 'sqs_payload_');
     }
 
     /**
@@ -78,6 +78,6 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
      */
     public static function getPayloadRetentionDays($queueConnection)
     {
-        return config("queue.{$queueConnection}.redis-storage.retention_days", 14);
+        return config("queue.connections.{$queueConnection}.redis_storage.retention_days", 14);
     }
 }
