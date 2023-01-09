@@ -23,6 +23,9 @@ class SqsJob extends \Illuminate\Queue\Jobs\SqsJob
     {
         parent::delete();
 
-        SqsConnector::redisConnection($this->getConnectionName())->del($this->job['RedisPayloadKey']);
+        # Check if job has been instantiated from Redis payload
+        if (isset($this->job['RedisPayloadKey'])) {
+            SqsConnector::redisConnection($this->getConnectionName())->del($this->job['RedisPayloadKey']);
+        }
     }
 }
