@@ -4,7 +4,7 @@
         "MIT"
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.1.0 || ^8",
         "laravel/framework": ">=5.5"
     },
     "autoload": {

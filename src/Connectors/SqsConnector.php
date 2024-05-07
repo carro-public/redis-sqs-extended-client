@@ -34,7 +34,7 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
             });
             
             return app()->make(\CarroPublic\RedisSqsExtendedClient\Queues\SqsQueue::class, [
-                'sqs' => new SqsClient($config),
+                'sqs' => new SqsClient(Arr::except($config, ['token'])),
                 'default' => $config['queue'],
                 'prefix' => $config['prefix'] ?? '',
                 'suffix' => $config['suffix'] ?? '',
@@ -43,7 +43,7 @@ class SqsConnector extends \Illuminate\Queue\Connectors\SqsConnector
         }
 
         return new SqsQueue(
-            new SqsClient($config),
+            new SqsClient(Arr::except($config, ['token'])),
             $config['queue'],
             $config['prefix'] ?? '',
             $config['suffix'] ?? '',
